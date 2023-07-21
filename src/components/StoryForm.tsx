@@ -1,0 +1,72 @@
+import Diversity2Icon from "@mui/icons-material/Diversity2";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import SettingsIcon from "@mui/icons-material/Settings";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardHeader from "@mui/material/CardHeader";
+import CircularProgress from "@mui/material/CircularProgress";
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
+import useStore from "@/hooks/useStore";
+import { useLocalStorageConfig } from "@/hooks/useLocalStorage";
+
+interface StoryFormProps {
+  onUserStory: () => void;
+  loading: boolean;
+}
+
+export function StoryForm({ onUserStory, loading }: StoryFormProps) {
+  const config = useStore((state) => state.config);
+  const handleSettings = useStore((state) => state.handleSettings);
+  const handleInputs = useStore((state) => state.handleInputs);
+
+  return (
+    <>
+      <Card
+        component="form"
+        onSubmit={(event) => {
+          event.preventDefault();
+          onUserStory();
+        }}
+        sx={{ p: 1 }}
+      >
+        <CardHeader
+          avatar={<Diversity2Icon fontSize="large" />}
+          action={<></>}
+          title="User Story GPT"
+          subheader="Write User Stories with ease."
+        />
+        <CardContent>
+          <TextField
+            multiline
+            fullWidth
+            id="feature"
+            name="feature"
+            label="Describe your feature as good as possible"
+            maxRows={4}
+            value={config.feature}
+            onChange={(event) => handleInputs("feature", event.target.value)}
+          />
+        </CardContent>
+
+        <CardActions>
+          <Button
+            disabled={loading}
+            startIcon={
+              loading ? <CircularProgress size={20} /> : <PlayArrowIcon />
+            }
+            variant="contained"
+            type="submit"
+          >
+            Generate User-Story
+          </Button>
+          <IconButton onClick={() => handleSettings(true)}>
+            <SettingsIcon />
+          </IconButton>
+        </CardActions>
+      </Card>
+    </>
+  );
+}
