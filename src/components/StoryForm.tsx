@@ -9,19 +9,25 @@ import CardHeader from "@mui/material/CardHeader";
 import CircularProgress from "@mui/material/CircularProgress";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
-import useStore from "@/hooks/useStore";
 import Link from "next/link";
 import Tooltip from "@mui/material/Tooltip";
 
 interface StoryFormProps {
+  config: Config;
+  onConfig: (
+    type: string,
+    value: string | { id: string; name: string }[]
+  ) => void;
   onUserStory: () => void;
   loading: boolean;
 }
 
-export function StoryForm({ onUserStory, loading }: StoryFormProps) {
-  const config = useStore((state) => state.config);
-  const handleInputs = useStore((state) => state.handleInputs);
-
+export function StoryForm({
+  config,
+  onConfig,
+  onUserStory,
+  loading,
+}: StoryFormProps) {
   return (
     <>
       <Card
@@ -47,7 +53,7 @@ export function StoryForm({ onUserStory, loading }: StoryFormProps) {
             label="Describe your feature as good as possible"
             maxRows={4}
             value={config.feature}
-            onChange={(event) => handleInputs("feature", event.target.value)}
+            onChange={(event) => onConfig("feature", event.target.value)}
           />
         </CardContent>
 
