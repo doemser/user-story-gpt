@@ -1,4 +1,3 @@
-import { SettingsModal } from "@/components/SettingsModal";
 import { StoryForm } from "@/components/StoryForm";
 import { UserStory } from "@/components/UserStory";
 import useStore from "@/hooks/useStore";
@@ -26,7 +25,6 @@ export default function Home() {
       </Head>
       <Container maxWidth="sm" sx={{ py: 6 }}>
         <StoryForm onUserStory={handleUserStory} loading={loading} />
-        <SettingsModal />
         <UserStory data={userStory} />
       </Container>
     </>

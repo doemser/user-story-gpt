@@ -10,7 +10,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import useStore from "@/hooks/useStore";
-import { useLocalStorageConfig } from "@/hooks/useLocalStorage";
+import Link from "next/link";
+import Tooltip from "@mui/material/Tooltip";
 
 interface StoryFormProps {
   onUserStory: () => void;
@@ -19,7 +20,6 @@ interface StoryFormProps {
 
 export function StoryForm({ onUserStory, loading }: StoryFormProps) {
   const config = useStore((state) => state.config);
-  const handleSettings = useStore((state) => state.handleSettings);
   const handleInputs = useStore((state) => state.handleInputs);
 
   return (
@@ -62,9 +62,14 @@ export function StoryForm({ onUserStory, loading }: StoryFormProps) {
           >
             Generate User-Story
           </Button>
-          <IconButton onClick={() => handleSettings(true)}>
-            <SettingsIcon />
-          </IconButton>
+
+          <Link href="/settings" legacyBehavior>
+            <IconButton aria-label="settings">
+              <Tooltip title="App Seetings">
+                <SettingsIcon />
+              </Tooltip>
+            </IconButton>
+          </Link>
         </CardActions>
       </Card>
     </>

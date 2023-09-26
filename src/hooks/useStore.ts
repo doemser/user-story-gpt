@@ -9,10 +9,8 @@ interface Config {
 }
 interface StoreState {
   config: Config;
-  settings: boolean;
   techStackInput: string;
   handleTechStackInput: (techStackInput: string) => void;
-  handleSettings: (settings: boolean) => void;
   handleInputs: (key: string, value: string) => void;
   handleAddTechStack: () => void;
   handleDeleteTechStack: (id: string) => void;
@@ -31,13 +29,9 @@ const useStore = create<StoreState>()(
           { id: "4", name: "serverless functions" },
         ],
       },
-      settings: false,
       techStackInput: "",
       handleTechStackInput: (techStackInput) => {
         set({ techStackInput });
-      },
-      handleSettings: (settings) => {
-        set({ settings });
       },
       handleInputs: (key, value) => {
         set((state) => ({ config: { ...state.config, [key]: value } }));
