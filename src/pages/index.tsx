@@ -5,7 +5,6 @@ import useStore from "@/hooks/useStore";
 import { useUserStory } from "@/hooks/useUserStory";
 import Container from "@mui/material/Container";
 import Head from "next/head";
-import { useLocalStorageConfig } from "@/hooks/useLocalStorage";
 
 export default function Home() {
   const { data: userStory, loading, getUserStory } = useUserStory();

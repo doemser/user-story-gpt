@@ -16,7 +16,6 @@ import Modal from "@mui/material/Modal";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { useLocalStorageConfig } from "@/hooks/useLocalStorage";
 
 export function SettingsModal() {
   const handleInputs = useStore((state) => state.handleInputs);
@@ -51,7 +50,7 @@ export function SettingsModal() {
             </IconButton>
           }
           title="Settings"
-          subheader="Write User Stories with ease."
+          subheader="Provide more info about your apps needs"
         />
         <Accordion>
           <AccordionSummary
