@@ -1,8 +1,8 @@
-import useStore from "@/hooks/useStore";
 import AppsIcon from "@mui/icons-material/Apps";
 import CloseIcon from "@mui/icons-material/Close";
 import LayersIcon from "@mui/icons-material/Layers";
 import SettingsIcon from "@mui/icons-material/Settings";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -12,21 +12,13 @@ import Chip from "@mui/material/Chip";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
+import { nanoid } from "nanoid";
 import Link from "next/link";
 
-export default function Settings() {
-  const handleInputs = useStore((state) => state.handleInputs);
-  const techStackInput = useStore((state) => state.techStackInput);
-  const handleTechStackInput = useStore((state) => state.handleTechStackInput);
-  const config = useStore((state) => state.config);
-  const handleAddTechStack = useStore((state) => state.handleAddTechStack);
-  const handleDeleteTechStack = useStore(
-    (state) => state.handleDeleteTechStack
-  );
+export default function Settings({ config, onConfig }: SettingsProps) {
   return (
     <Stack alignItems="center" mt={2}>
-      <Card>
+      <Card sx={{ maxWidth: 500 }}>
         <CardHeader
           avatar={<SettingsIcon fontSize="large" />}
           action={
@@ -54,9 +46,9 @@ export default function Settings() {
                 id="app"
                 name="app"
                 label="Describe your App as best as possible"
-                maxRows={6}
+                rows={6}
                 value={config.app}
-                onChange={(event) => handleInputs("app", event.target.value)}
+                onChange={(event) => onConfig("app", event.target.value)}
               />
             </CardContent>
           </Card>
@@ -68,37 +60,54 @@ export default function Settings() {
               subheader="Set your Techstack to get more relevant suggestions."
             />
             <CardContent>
-              <Typography variant="caption">
-                Set your Techstack to get more relevant suggestions.
-              </Typography>
-              <Stack direction="row" sx={{ mt: 2, flexWrap: "wrap", gap: 1 }}>
+              <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1 }}>
                 {config.techStack.map((stack) => (
                   <Chip
                     size="small"
                     key={stack.id}
                     label={stack.name}
                     variant="outlined"
-                    onDelete={() => handleDeleteTechStack(stack.id)}
+                    onDelete={() =>
+                      onConfig(
+                        "techStack",
+                        config.techStack.filter(
+                          (_stack) => _stack.id !== stack.id
+                        )
+                      )
+                    }
                   />
                 ))}
               </Stack>
 
-              <TextField
-                multiline
-                fullWidth
-                size="small"
-                id="techStack"
-                name="techStack"
-                label="Set tech-stack and relevant technology buzzwords"
-                sx={{ mt: 2 }}
-                value={techStackInput}
-                onChange={(event: any) => {
-                  handleTechStackInput(event.target.value);
+              <Box
+                component="form"
+                id="techStackForm"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  const form = event.target as HTMLFormElement;
+                  onConfig("techStack", [
+                    ...config.techStack,
+                    {
+                      id: nanoid(),
+                      name: form.techStack.value,
+                    },
+                  ]);
+                  form.reset();
                 }}
-              />
+              >
+                <TextField
+                  required
+                  fullWidth
+                  size="small"
+                  id="techStack"
+                  name="techStack"
+                  label="Set tech-stack and relevant technology buzzwords"
+                  sx={{ mt: 2 }}
+                />
+              </Box>
             </CardContent>
             <CardActions>
-              <Button type="button" size="small" onClick={handleAddTechStack}>
+              <Button type="submit" form="techStackForm" size="small">
                 Add Technology
               </Button>
             </CardActions>

@@ -64,3 +64,19 @@ interface VersionTabsProps {
   reviews: string[][];
   aspect: Aspect;
 }
+
+interface SettingsProps {
+  config: Config;
+  onConfig: (
+    type: string,
+    value: string | { id: string; name: string }[]
+  ) => void;
+}
+
+// Config
+
+interface Config {
+  feature: string;
+  app: string;
+  techStack: { id: string; name: string }[];
+}
