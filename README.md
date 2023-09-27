@@ -9,8 +9,7 @@ Writes User Stories with ease.
 
 Features planned:
 
-- Review GPT and give improvement suggestions
-- Create GitHub issue
+- hold multiple app descriptions
 
 ![userStoryGpt](/public/user-story-gpt.png)
 
